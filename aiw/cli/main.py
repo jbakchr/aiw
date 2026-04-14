@@ -36,3 +36,32 @@ def create(prompt: str):
     typer.echo("-" * 40)
     typer.echo("\n(Mock response)")
     typer.echo("This is where an AI-generated response will go.")
+
+
+@run_app.command("update-readme")
+def update_readme(file: Path):
+    """
+    Update a README.md file based on recent changes (mocked for now).
+    """
+
+    if not file.exists():
+        typer.echo(f"❌ File not found: {file}")
+        raise typer.Exit(code=1)
+
+    if not file.is_file():
+        typer.echo(f"❌ Not a file: {file}")
+        raise typer.Exit(code=1)
+
+    readme_content = file.read_text()
+
+    typer.echo("🛠 Running workflow: update-readme")
+    typer.echo(f"📄 Target file: {file}")
+    typer.echo("-" * 40)
+
+    typer.echo("📥 Current README content:")
+    typer.echo("-" * 40)
+    typer.echo(readme_content)
+    typer.echo("-" * 40)
+
+    typer.echo("\n(Mock AI output)")
+    typer.echo("✅ Suggested README update would appear here.")
