@@ -1,0 +1,9 @@
+[project]
+name = "aiw"
+version = "0.1.0"
+description = "Personal AI Workbench (CLI-first)"
+requires-python = ">=3.10"
+dependencies = ["typer"]
+
+[project.scripts]
+aiw = "aiw.cli.main:app"
