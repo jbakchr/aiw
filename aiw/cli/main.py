@@ -1,6 +1,8 @@
 import typer
 from pathlib import Path
 
+from aiw.llm.ollama import generate
+
 app = typer.Typer(help="AI Workbench – a personal CLI for thinking with AI")
 run_app = typer.Typer(help="Run prompts and workflows")
 
@@ -54,14 +56,27 @@ def update_readme(file: Path):
 
     readme_content = file.read_text()
 
-    typer.echo("🛠 Running workflow: update-readme")
-    typer.echo(f"📄 Target file: {file}")
-    typer.echo("-" * 40)
+    
+    prompt = f"""
+    You are a helpful software engineering assistant.
 
-    typer.echo("📥 Current README content:")
-    typer.echo("-" * 40)
-    typer.echo(readme_content)
-    typer.echo("-" * 40)
+    The following is the current README.md for a CLI tool.
+    Please suggest an improved version that:
+    - reflects recent development accurately
+    - improves clarity and structure
+    - keeps the tone pragmatic and technical
+    - does NOT invent features that do not exist
 
-    typer.echo("\n(Mock AI output)")
-    typer.echo("✅ Suggested README update would appear here.")
+    README CONTENT:
+    ----------------
+    {readme_content}
+    ----------------
+    """
+
+    typer.echo("\n🤖 Generating updated README using Ollama...")
+    updated_readme = generate(prompt)
+
+    typer.echo("\n✅ Suggested README update:")
+    typer.echo("-" * 40)
+    typer.echo(updated_readme)
+    typer.echo("-" * 40)
