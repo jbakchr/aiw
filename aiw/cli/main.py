@@ -1,6 +1,7 @@
-import typer
 from pathlib import Path
+import difflib
 
+import typer
 from aiw.llm.ollama import generate
 
 app = typer.Typer(help="AI Workbench – a personal CLI for thinking with AI")
@@ -56,7 +57,7 @@ def update_readme(
     ),
 ):
     """
-    Update a README.md file based on recent changes (mocked for now).
+    Update a README.md file based on recent changes.
     """
 
     if not file.exists():
@@ -67,9 +68,9 @@ def update_readme(
         typer.echo(f"❌ Not a file: {file}")
         raise typer.Exit(code=1)
 
+    # 1️⃣ Read original content
     readme_content = file.read_text()
 
-    
     prompt = f"""
     You are a helpful software engineering assistant.
 
@@ -88,17 +89,37 @@ def update_readme(
 
     typer.echo("\n🤖 Generating updated README using Ollama...")
     typer.echo(f"🤖 Using Ollama model: {model}\n")
-    
+
+    # 2️⃣ Generate updated content
     updated_readme = generate(prompt, model=model)
 
-    typer.echo("\n✅ Suggested README update:")
-    typer.echo("-" * 40)
-    typer.echo(updated_readme)
+    # 3️⃣ Compute diff
+    original_lines = readme_content.splitlines(keepends=True)
+    updated_lines = updated_readme.splitlines(keepends=True)
+
+    diff = difflib.unified_diff(
+        original_lines,
+        updated_lines,
+        fromfile=str(file),
+        tofile=f"{file} (updated)",
+    )
+    diff_text = "".join(diff)
+
+    # 4️⃣ Show diff preview
+    typer.echo("\n🧾 Diff preview:")
     typer.echo("-" * 40)
 
+    if diff_text.strip():
+        typer.echo(diff_text)
+    else:
+        typer.echo("No changes detected.")
+
+    typer.echo("-" * 40)
+
+    # 5️⃣ Apply or not
     if apply:
         file.write_text(updated_readme)
         typer.echo("\n✅ README.md written to disk.")
     else:
-        typer.echo("\nℹ️  Run with --apply to overwrite the file.")
+        typer.echo("\nℹ️  Preview only. Run with --apply to overwrite the file.")
     
