@@ -40,8 +40,15 @@ def create(prompt: str):
     typer.echo("This is where an AI-generated response will go.")
 
 
+
 @run_app.command("update-readme")
-def update_readme(file: Path):
+def update_readme(
+    file: Path,
+    model: str = typer.Option(
+        "llama3",
+        help="Ollama model to use (e.g. llama3, llama3:8b, mistral)",
+    ),
+):
     """
     Update a README.md file based on recent changes (mocked for now).
     """
@@ -74,7 +81,9 @@ def update_readme(file: Path):
     """
 
     typer.echo("\n🤖 Generating updated README using Ollama...")
-    updated_readme = generate(prompt)
+    typer.echo(f"🤖 Using Ollama model: {model}")
+    
+    updated_readme = generate(prompt, model=model)
 
     typer.echo("\n✅ Suggested README update:")
     typer.echo("-" * 40)
