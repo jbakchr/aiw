@@ -41,12 +41,18 @@ def create(prompt: str):
 
 
 
+
 @run_app.command("update-readme")
 def update_readme(
     file: Path,
     model: str = typer.Option(
         "llama3",
         help="Ollama model to use (e.g. llama3, llama3:8b, mistral)",
+    ),
+    apply: bool = typer.Option(
+        False,
+        "--apply",
+        help="Overwrite the README with the generated content",
     ),
 ):
     """
@@ -81,7 +87,7 @@ def update_readme(
     """
 
     typer.echo("\n🤖 Generating updated README using Ollama...")
-    typer.echo(f"🤖 Using Ollama model: {model}")
+    typer.echo(f"🤖 Using Ollama model: {model}\n")
     
     updated_readme = generate(prompt, model=model)
 
@@ -89,3 +95,10 @@ def update_readme(
     typer.echo("-" * 40)
     typer.echo(updated_readme)
     typer.echo("-" * 40)
+
+    if apply:
+        file.write_text(updated_readme)
+        typer.echo("\n✅ README.md written to disk.")
+    else:
+        typer.echo("\nℹ️  Run with --apply to overwrite the file.")
+    

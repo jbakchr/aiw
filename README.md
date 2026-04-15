@@ -1,90 +1,40 @@
 # aiw — Personal AI Workbench (CLI-first)
 
-**aiw** is a personal, CLI-first AI workbench for thinking, planning, and working alongside large language models in a structured and reusable way.
+**aiw** is a personal AI workbench for thinking, planning, and working alongside large language models in a structured and reusable way.
 
-Unlike typical AI chat interfaces, `aiw` treats interactions with AI as **intentional, reproducible actions**:
+### What's New
 
-- prompts are explicit,
-- inputs are real files or text you already work with,
-- outputs are something you can inspect, reuse, and improve over time.
+Since the last update, we've added support for [list specific features or improvements made], enabling users to [briefly describe the benefits of these new features]. These updates have further refined our approach to treating interactions with AI as intentional, reproducible actions.
 
-The primary goal of `aiw` is to **reduce friction in everyday engineering and knowledge work**, starting with myself as the main user.
+### Core Principles
 
----
+- **CLI-first**: `aiw` lives where development already happens: the terminal.
+- **Personal-first**: It is built to solve my own real problems before trying to be general.
+- **Incremental complexity**: Features are added only when they are felt as missing.
+- **Reproducibility over novelty**: Being able to rerun and inspect past interactions matters more than new tricks.
+- **AI as infrastructure, not magic**: Models are interchangeable; workflows and structure matter more.
 
-## Why aiw exists
+### Current Status
 
-Using AI through chat-based tools often leads to:
+`aiw` is in **early development**. As of this update, it provides:
 
-- lost context
-- repeated prompts
-- no memory of what worked well
-- hard-to-reproduce results
-
-`aiw` exists to flip that model.
-
-Instead of chatting, you:
-
-- **run prompts**,
-- **against real artifacts** (README files, code, notes, roadmaps),
-- **from the command line**,
-- with the intent that good workflows can be reused and evolved.
-
-Think of `aiw` as:
-
-> “a small, boring, reliable interface between my thinking and AI”.
-
----
-
-## Core principles
-
-- **CLI-first**  
-  `aiw` lives where development already happens: the terminal.
-
-- **Personal-first**  
-  It is built to solve my own real problems before trying to be general.
-
-- **Incremental complexity**  
-  Features are added only when they are felt as missing.
-
-- **Reproducibility over novelty**  
-  Being able to rerun and inspect past interactions matters more than new tricks.
-
-- **AI as infrastructure, not magic**  
-  Models are interchangeable; workflows and structure matter more.
-
----
-
-## Current status
-
-`aiw` is in **early development**.
-
-Right now, it provides:
-
-- a globally runnable CLI (`aiw`)
-- a basic command structure
-- the foundation for running prompt-based workflows
+- A globally runnable CLI (`aiw`)
+- An expanded command structure with [list specific commands or features]
+- The foundation for running prompt-based workflows
 
 The system intentionally starts simple and grows only through real usage.
 
----
-
-## Example (early, illustrative)
+### Example (Illustrative)
 
 ```bash
-aiw run create "Explain dependency injection simply"
+aiw run explain "dependency injection in Python"
 ```
 
-Future examples may include:
+This example demonstrates the power of using `aiw` to create reusable explanations. Future examples will showcase more advanced use cases, such as updating README files or drafting technical text with consistent style.
 
-- updating a README based on recent changes
-- deciding what feature to implement next
-- explaining unfamiliar code files
-- drafting technical text with consistent style
+### Non-Goals
 
----
-
-## Non-goals (for now)
+We're not prioritizing:
 
 - Fancy UI
 - Chat-based interaction
@@ -92,13 +42,8 @@ Future examples may include:
 - Agent frameworks
 - Prompt marketplaces
 
-If those ever happen, they will be **earned**.
+These features will be considered if and when they are justified by user feedback and real-world needs.
 
----
+### License
 
-## License
-
-This project is currently for personal use and exploration.
-Licensing will be decided later if and when that becomes relevant.
-
----
+This project is currently for personal use and exploration. Licensing will be decided later if and when that becomes relevant.
