@@ -1,15 +1,30 @@
 from pathlib import Path
-import difflib
 
 import typer
 
-from aiw.llm.ollama import generate
 from aiw.workflows.update_readme import run_update_readme
 
 app = typer.Typer(help="AI Workbench – a personal CLI for thinking with AI")
 run_app = typer.Typer(help="Run prompts and workflows")
 
 app.add_typer(run_app, name="run")
+
+
+def colorize_diff(diff_text: str) -> str:
+    """
+    Add ANSI colors to a unified diff.
+    """
+    colored_lines = []
+
+    for line in diff_text.splitlines():
+        if line.startswith("+") and not line.startswith("+++"):
+            colored_lines.append(f"\033[32m{line}\033[0m")  # green
+        elif line.startswith("-") and not line.startswith("---"):
+            colored_lines.append(f"\033[31m{line}\033[0m")  # red
+        else:
+            colored_lines.append(line)
+
+    return "\n".join(colored_lines)
 
 
 @run_app.command("create")
@@ -79,7 +94,7 @@ def update_readme(
     typer.echo("-" * 40)
 
     if result.diff_text.strip():
-        typer.echo(result.diff_text)
+        typer.echo(colorize_diff(result.diff_text))
     else:
         typer.echo("No changes detected.")
 
