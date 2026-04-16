@@ -1,4 +1,4 @@
-**aiw - Personal AI Workbench (CLI-first)**
+# **aiw - Personal AI Workbench (CLI-first)**
 
 ## **Overview**
 
