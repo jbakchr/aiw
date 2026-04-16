@@ -1,49 +1,186 @@
-# **aiw - Personal AI Workbench (CLI-first)**
+# aiw — Personal AI Workbench (CLI‑first)
 
-## **Overview**
+**aiw** is a personal, CLI‑first AI workbench for thinking, planning, and working alongside large language models in a **structured, repeatable, and inspectable way**.
 
-`aiw` is a command-line interface (CLI) tool designed for structured interactions with large language models, empowering users to think, plan, and work alongside AI in a reusable and reproducible way.
+Instead of chatting with AI in a browser, `aiw` brings AI into the terminal and treats it like a **developer tool**:
 
-**What's New**
+- explicit inputs
+- clear intent
+- inspectable output
+- safe application to real files
 
-We've recently updated `aiw` with [list specific features or improvements made], allowing users to [briefly describe the benefits of these new features]. These updates have refined our approach to treating interactions with AI as intentional, reproducible actions.
+`aiw` is built first and foremost to be _useful_, not flashy.
 
-**Core Principles**
+---
 
-- **CLI-first**: Built for developers and terminal enthusiasts, focusing on a robust command-line interface.
-- **Personal-first**: Solving real-world problems before aiming for generality.
-- **Incremental complexity**: Features added only when felt missing, ensuring organic growth.
-- **Reproducibility over novelty**: Being able to rerun and inspect past interactions matters more than new tricks.
-- **AI as infrastructure, not magic**: Models are interchangeable; workflows and structure matter more.
+## What aiw is (today)
 
-**Current Status**
+Right now, `aiw` helps with two very concrete tasks:
 
-`aiw` is currently in **early development**, providing a solid foundation for:
+1. **Maintaining and improving documentation** (e.g. `README.md`)
+2. **Deciding what to work on next** based on an existing roadmap
 
-- A globally runnable CLI (`aiw`)
-- An expanded command structure with [list specific commands or features]
-- The ability to run prompt-based workflows
+Both are things developers do repeatedly — and often inefficiently.
 
-The system intentionally starts simple, growing only through real usage, prioritizing usability and effectiveness.
+---
 
-**Example (Illustrative)**
+## Key ideas
+
+- **CLI‑first** — works where you already work
+- **Local‑first AI** — powered by Ollama, no cloud dependency or cost
+- **Preview before apply** — nothing is written unless you explicitly ask for it
+- **Structured output** — AI suggestions and commentary are clearly separated
+- **Incremental refinement** — features grow from real usage, not speculation
+
+---
+
+## Installation (development setup)
 
 ```bash
-aiw run explain "dependency injection in Python"
+pipx install -e .
 ```
 
-This example demonstrates the power of using `aiw` for reusable explanations. Future examples will showcase more advanced use cases.
+> `aiw` is currently intended primarily for personal use and development.
 
-**Roadmap**
+---
 
-Our near-term focus is on:
+## Requirements
 
-- Expanding the command structure
-- Improving workflow management
-- Enhancing model integration
+- Python 3.10+
+- [Ollama](https://ollama.com) running locally
+- At least one local model pulled, e.g.:
 
-We'll consider other features only when justified by user feedback and real-world needs.
+```bash
+ollama pull llama3
+```
 
-**License**
+or a faster alternative like:
 
-This project is currently for personal use and exploration. Licensing will be decided later if and when that becomes relevant.
+```bash
+ollama pull mistral
+```
+
+---
+
+## Usage
+
+### 1. Update a README.md safely
+
+`aiw` can analyze and improve an existing `README.md`, showing you exactly what would change **before** applying anything.
+
+#### Preview changes (default)
+
+```bash
+aiw run update-readme README.md
+```
+
+What you get:
+
+- A **colorized unified diff**
+- Clear visibility into what will be added, removed, or rewritten
+- Optional reviewer notes with further improvement ideas
+
+Nothing is written to disk.
+
+#### Apply the changes
+
+```bash
+aiw run update-readme README.md --apply
+```
+
+What happens:
+
+- The same diff preview is shown
+- Only the **clean README content** is written
+- Reviewer commentary is **never** included in the file
+
+#### Choose a different model
+
+```bash
+aiw run update-readme README.md --model mistral
+```
+
+This is useful if you want faster responses for smaller tasks.
+
+---
+
+### 2. Decide what to implement next
+
+Given an existing `ROADMAP.md`, `aiw` can suggest the **next small, high‑impact feature**, broken down into manageable steps.
+
+```bash
+aiw run plan-next-feature ROADMAP.md
+```
+
+What you get:
+
+- A concrete recommendation for _what to build next_
+- Step‑by‑step justification
+- Optional reviewer notes with alternative ideas or caveats
+
+This command is **non‑destructive** — it does not modify any files.
+
+---
+
+## Why aiw exists
+
+Typical AI tools:
+
+- lose context
+- mix output with commentary
+- encourage disposable interactions
+
+`aiw` takes a different approach.
+
+It treats AI as:
+
+- **infrastructure**, not magic
+- something you run intentionally
+- something whose output you inspect, reuse, and apply carefully
+
+Think of it as:
+
+> _“a structured interface between my thinking and an LLM.”_
+
+---
+
+## Current scope (intentionally limited)
+
+`aiw` does **not** aim to be:
+
+- an AI chat client
+- a general agent framework
+- a replacement for existing tools
+
+The focus is:
+
+- a small number of workflows
+- refined through real use
+- that compound value over time
+
+---
+
+## Roadmap & direction
+
+The roadmap lives in ROADMAP.md and evolves based on actual usage.
+
+New features are only added when:
+
+- existing workflows are clearly useful
+- real friction is observed
+- incremental improvements make sense
+
+---
+
+## Status
+
+`aiw` is in active use and iteration.
+
+It is expected to change, but changes are driven by **experience**, not novelty.
+
+---
+
+## License
+
+Currently for personal use and experimentation.  
+Licensing will be revisited if broader sharing becomes relevant.
