@@ -3,6 +3,7 @@ from pathlib import Path
 import difflib
 
 from aiw.llm.ollama import generate
+from aiw.prompts.document_review import build_document_review_prompt
 
 
 @dataclass
@@ -19,30 +20,17 @@ def run_update_readme(file: Path, model: str) -> UpdateReadmeResult:
     """
     readme_content = file.read_text()
 
-    prompt = f"""
-You are a helpful software engineering assistant.
+    prompt = build_document_review_prompt(
+        document_name="README.md",
+        document_content=readme_content,
+        goals=[
+            "Reflect recent development accurately",
+            "Improve clarity and structure",
+            "Keep a pragmatic, technical tone",
+            "Do not invent features that do not exist",
+            ],
+    )
 
-Your task is to produce TWO sections:
-
-SECTION A — UPDATED README
-- This section must contain ONLY the full revised README.md content.
-- Do NOT include commentary, feedback, or meta text.
-- Do NOT explain what you changed.
-- Output valid Markdown.
-
-SECTION B — REVIEWER NOTES
-- This section may contain suggestions, feedback, or follow-up ideas.
-- This section will NOT be written to disk.
-
-Use EXACT section headers:
-=== UPDATED README ===
-=== REVIEWER NOTES ===
-
-README CONTENT:
-----------------
-{readme_content}
-----------------
-"""
 
     raw_output = generate(prompt, model=model)
 
