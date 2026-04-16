@@ -100,6 +100,12 @@ def update_readme(
 
     typer.echo("-" * 40)
 
+    if result.reviewer_notes:
+        typer.echo("\n💡 Reviewer notes (not applied):")
+        typer.echo("-" * 40)
+        typer.echo(result.reviewer_notes)
+        typer.echo("-" * 40)
+
     if apply:
         file.write_text(result.updated_readme)
         typer.echo("\n✅ README.md written to disk.")
