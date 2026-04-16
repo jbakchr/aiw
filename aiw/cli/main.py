@@ -3,6 +3,7 @@ from pathlib import Path
 import typer
 
 from aiw.workflows.update_readme import run_update_readme
+from aiw.workflows.plan_next_feature import run_plan_next_feature
 
 app = typer.Typer(help="AI Workbench – a personal CLI for thinking with AI")
 run_app = typer.Typer(help="Run prompts and workflows")
@@ -112,3 +113,40 @@ def update_readme(
     else:
         typer.echo("\nℹ️  Preview only. Run with --apply to overwrite the file.")
     
+
+@run_app.command("plan-next-feature")
+def plan_next_feature(
+    file: Path,
+    model: str = typer.Option(
+        "llama3",
+        help="Ollama model to use (e.g. llama3, mistral)",
+    ),
+):
+    """
+    Propose the next small, high-impact feature to implement
+    based on a roadmap file.
+    """
+
+    if not file.exists():
+        typer.echo(f"❌ File not found: {file}")
+        raise typer.Exit(code=1)
+
+    if not file.is_file():
+        typer.echo(f"❌ Not a file: {file}")
+        raise typer.Exit(code=1)
+
+    typer.echo("\n🧠 Analyzing roadmap...")
+    typer.echo(f"🤖 Using Ollama model: {model}\n")
+
+    result = run_plan_next_feature(file, model)
+
+    typer.echo("\n📌 Proposed next feature:")
+    typer.echo("-" * 40)
+    typer.echo(result.plan_text)
+    typer.echo("-" * 40)
+
+    if result.reviewer_notes:
+        typer.echo("\n💡 Reviewer notes:")
+        typer.echo("-" * 40)
+        typer.echo(result.reviewer_notes)
+        typer.echo("-" * 40)
