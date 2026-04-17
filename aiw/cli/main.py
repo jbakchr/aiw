@@ -144,9 +144,3 @@ def plan_next_feature(
     typer.echo("-" * 40)
     typer.echo(result.plan_text)
     typer.echo("-" * 40)
-
-    if result.reviewer_notes:
-        typer.echo("\n💡 Reviewer notes:")
-        typer.echo("-" * 40)
-        typer.echo(result.reviewer_notes)
-        typer.echo("-" * 40)

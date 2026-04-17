@@ -4,6 +4,7 @@ def build_document_review_prompt(
     *,
     role: str = "software engineering assistant",
     goals: list[str] | None = None,
+    required_output_format: str | None = None,
 ) -> str:
     """
     Build a structured prompt for reviewing and revising a document,
@@ -14,30 +15,32 @@ def build_document_review_prompt(
     if goals:
         goals_text = "\n".join(f"- {goal}" for goal in goals)
 
+
+    output_format_text = ""
+    if required_output_format:
+        output_format_text = f"""
+    REQUIRED OUTPUT FORMAT (must follow exactly):
+    {required_output_format}
+    """
+
+
     return f"""
-You are a helpful {role}.
+        You are a helpful {role}.
 
-Your task is to produce TWO sections:
+        Your task is to produce TWO sections:
 
-SECTION A — UPDATED {document_name.upper()}
-- This section must contain ONLY the full revised document content.
-- Do NOT include commentary, feedback, or meta text.
-- Do NOT explain what you changed.
-- Output valid Markdown.
+        SECTION A — UPDATED {document_name.upper()}
+        ...
+        SECTION B — REVIEWER NOTES
+        ...
 
-SECTION B — REVIEWER NOTES
-- This section may contain suggestions, feedback, or follow-up ideas.
-- This section will NOT be written to disk.
+        REVISION GOALS:
+        {goals_text if goals_text else "Follow best practice and improve clarity without inventing content."}
 
-Use EXACT section headers:
-=== UPDATED {document_name.upper()} ===
-=== REVIEWER NOTES ===
+        {output_format_text}
 
-REVISION GOALS:
-{goals_text if goals_text else "Follow best practice and improve clarity without inventing content."}
-
-ORIGINAL DOCUMENT:
-----------------
-{document_content}
-----------------
-""".strip()
+        ORIGINAL DOCUMENT:
+        ----------------
+        {document_content}
+        ----------------
+        """.strip()
